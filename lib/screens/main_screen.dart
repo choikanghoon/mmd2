@@ -7,6 +7,7 @@ import '../style/size_form.dart';
 import 'camera.dart';
 import '../style/custom_color.dart';
 import '../style/contents.dart';
+import '../back_module/sqlclient.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -16,8 +17,13 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+
+
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, String?>;
+    final user_no = args['user_no'];
+
     return Scaffold(
       appBar: Appbar_screen(isMainScreen: true),
       body: SingleChildScrollView(
@@ -37,8 +43,7 @@ class _MainScreenState extends State<MainScreen> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MyCamera()),
-                );
+                  MaterialPageRoute(builder: (context) => MyCamera()));
               },
             ),
             SizedBox(
@@ -52,8 +57,7 @@ class _MainScreenState extends State<MainScreen> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Dict_List()),
-                );
+                  MaterialPageRoute(builder: (context) => Dict_List()));
               },
             ),
             SizedBox(
@@ -62,13 +66,18 @@ class _MainScreenState extends State<MainScreen> {
             ),
             MainContents(
               ImagePath: 'assets/images/main_note.png',
-              title_text: '나만의 일기',
+              title_text: '잠시동안 로그아웃',
               subtitle_text: '오늘 배운단어들과 연관지어 일기를 써보아요',
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyCamera()),
-                );
+
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(builder: (context) => Dict_List(),
+                //         settings: RouteSettings(arguments: {'user_no':user_no})));
+
+                // 로그아웃 기능
+                Token().Deltoken();
+                Navigator.popUntil(context, (route) => route.isFirst);
               },
             ),
             SizedBox(

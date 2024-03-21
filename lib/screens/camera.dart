@@ -19,7 +19,6 @@ class MyCamera extends StatefulWidget {
 }
 
 class _MyCameraState extends State<MyCamera> {
-  String? user_no = "8";
   XFile? _image;
   final ImagePicker _picker = ImagePicker();
 
@@ -116,8 +115,13 @@ class _MyCameraState extends State<MyCamera> {
   }
 
   Widget _buildSendButton() {
+
+
     return ElevatedButton(
+
       onPressed: () async {
+        // 수정필요
+        String? user_no = await Token().Gettoken();
         String? mydic_no = await sqlget().GetNewMyDicNo();
         Awss3Send(user_no: user_no,mydic_no: mydic_no).upload(_image!.path);
         Navigator.push(

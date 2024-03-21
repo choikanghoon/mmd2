@@ -16,8 +16,9 @@ class _JoinScreenState extends State<JoinScreen> {
   final TextEditingController _conpwController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
-  bool IdCheck = false;
+  bool IdCheck = false; // 아이디 중복확인
   String? _confirmPasswordError;
+  int? _gender = 0; // 기본값 남성
 
   String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
@@ -26,6 +27,13 @@ class _JoinScreenState extends State<JoinScreen> {
     // 여기에 추가적인 비밀번호 유효성 검사 로직을 추가할 수 있습니다.
     // 예를 들어, 최소 길이, 특수문자 포함 등의 규칙을 검사할 수 있습니다.
     return null;
+  }
+
+  // 회원가입 가능여부 판단
+  bool CheckJoin() {
+    // 1. 비밀번호 공백인지 + 동일한지
+    bool PwCheck = (_pwController.text == _conpwController.text) && (_pwController.text != "");
+    return IdCheck && PwCheck;
   }
 
   @override
@@ -84,18 +92,33 @@ class _JoinScreenState extends State<JoinScreen> {
                       SizedBox(width: 10), // 텍스트 필드와 버튼 사이 간격 조절
                       ElevatedButton(
                         onPressed: () async {
+                          // 빈칸 입력 시
+                          if (_idController.text == "") {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('아이디를 입력해주시기 바랍니다.'),
+                            ));
+                            IdCheck = false;
+                            return;
+                          }
+
                           // 버튼 클릭 시 동작 추가
                           String? check = await sqlget()
                               .GetUserByIdPw(id: _idController.text);
                           if (check == 'pw') {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('장난하니?.'),
+                              content: Text('중복된 아이디가 있습니다.'),
                             ));
-                          } else {
+                            IdCheck = false;
+                          } else if (check == 'id'){
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text('사용 가능 합니다.'),
                             ));
                             IdCheck = true;
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('서버 오류, 다시 시도해주시기 바랍니다.'),
+                            ));
+                            IdCheck = false;
                           }
                         },
                         child: Text(
@@ -147,24 +170,60 @@ class _JoinScreenState extends State<JoinScreen> {
                     Controll: _nameController,
                     Obsure: false,
                   ),
+                  RadioListTile(
+                    title: Text('남성'),
+                    value: 0,
+                    groupValue: _gender,
+                    onChanged: (value) {
+                      setState(() {
+                        _gender = value as int?;
+                      });
+                    },
+                  ),
+                  RadioListTile(
+                    title: Text('여성'),
+                    value: 1,
+                    groupValue: _gender,
+                    onChanged: (value) {
+                      setState(() {
+                        _gender = value as int?;
+                      });
+                    },
+                  ),
+
                   SizedBox(
                     height: 40,
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      bool result = await sqlget().UserJoin(
-                          id: _idController.text,
-                          pw: _pwController.text,
-                          // email: _emailController.text,
-                          name: _nameController.text);
-                      if (result) {
+                      if (IdCheck != true) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text('회원가입 성공!'),
-                        ));
-                        Navigator.of(context).pop();
+                            content: Text('아이디 중복확인을 해주세요.')));
+                        return;
+                      }
+
+                      bool Join_Ok = CheckJoin();
+
+                      if (Join_Ok) {
+                        bool result = await sqlget().UserJoin(
+                            id: _idController.text,
+                            pw: _pwController.text,
+                            gender: _gender,
+                            // email: _emailController.text,
+                            name: _nameController.text);
+                        if (result) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('회원가입 성공!'),
+                          ));
+                          Navigator.of(context).pop();
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('서버 연결 오류!'),
+                          ));
+                        }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text('회원가입 실패!'),
+                          content: Text('모든 항목들을 작성해주세요.'),
                         ));
                       }
                     },
