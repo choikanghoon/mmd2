@@ -18,6 +18,27 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _pwController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    GetNumber();
+  }
+
+  Future<void> GetNumber() async {
+    String? user_no = await Token().Gettoken();
+    print(user_no);
+    if (user_no != null) {
+      // 다음 화면 넘기기
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => MainScreen(),
+            settings: RouteSettings(
+                arguments: {'user_no': user_no})),
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
@@ -50,6 +71,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
+                      if (_idController.text=="" || _pwController.text=="") {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('아이디, 비밀번호를 입력해주시기 바랍니다.'),
+                        ));
+                        return;
+                      }
+
                       String? result = await sqlget().GetUserByIdPw(
                           id: _idController.text, pw: _pwController.text);
                       if (result == null) {
@@ -73,6 +101,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           content: Text('로그인 성공!'),
                           duration: Duration(seconds: 3),
                         ));
+                        // 로그인 세션 유지
+                        Token().Settoken(result);
+                        print(result);
+                        // 다음 화면 넘기기
                         Navigator.push(
                           context,
                           MaterialPageRoute(
