@@ -8,6 +8,7 @@ import 'camera.dart';
 import '../style/custom_color.dart';
 import '../style/contents.dart';
 import '../back_module/sqlclient.dart';
+import 'login_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -17,13 +18,32 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  String? user_no;
 
+  // 4. 세션 토큰 검사
+  void Checktoken() async {
+    String? no = await Token().Gettoken();
+
+    if (no == null) {
+      Navigator.popUntil(context, (route) => route.isFirst);
+      Navigator.pop(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => LoginScreen()));
+    } else {
+      setState(() {
+        user_no = no;
+      });}
+    }
+
+  @override
+  void initState() {
+    super.initState();
+    Checktoken();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)?.settings.arguments as Map<String, String?>;
-    final user_no = args['user_no'];
-
     return Scaffold(
       appBar: Appbar_screen(isMainScreen: true),
       body: SingleChildScrollView(
@@ -66,7 +86,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             MainContents(
               ImagePath: 'assets/images/main_note.png',
-              title_text: '잠시동안 로그아웃',
+              title_text: '잠시동안 로그아웃${user_no}',
               subtitle_text: '오늘 배운단어들과 연관지어 일기를 써보아요',
               onTap: () {
 
@@ -78,6 +98,11 @@ class _MainScreenState extends State<MainScreen> {
                 // 로그아웃 기능
                 Token().Deltoken();
                 Navigator.popUntil(context, (route) => route.isFirst);
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+
               },
             ),
             SizedBox(

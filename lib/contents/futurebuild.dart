@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../back_module/s3client.dart';
 import 'dart:typed_data';
-import '../back_module/modelapi.dart';
 
 class SnapShotImage extends StatefulWidget {
   final String? user_no;
@@ -35,36 +34,6 @@ class _SnapShotState extends State<SnapShotImage> {
           );
         }
       },
-    );
-  }
-}
-
-class FutureText extends StatefulWidget {
-  final String? user_no;
-  final String? mydic_no;
-
-  const FutureText({
-    required this.mydic_no,
-    required this.user_no,
-  });
-
-  @override
-  State<FutureText> createState() => _FutureTextState();
-}
-class _FutureTextState extends State<FutureText> {
-
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: GetLabel(user_no:widget.user_no, mydic_no:widget.mydic_no).get_label(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Text(snapshot.data!, textAlign: TextAlign.center,);
-          } else {
-            return Text('분석 중');
-          }
-        },
     );
   }
 }

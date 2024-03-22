@@ -35,9 +35,11 @@ class GetLabel {
       // List<String> list2 = list[1].split(':');
 
       String? data = list1[1];
+      print(data);
       return data;
     } else {
       String? data = null;
+      print(data);
       return data;
     }
   }
