@@ -185,6 +185,8 @@ class _Dict_CardState extends State<Dict_Card> {
                 ),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
+                    minimumSize: Size.zero,
+                    padding: EdgeInsets.zero,
                     backgroundColor: Colors.white,
                     elevation: 0,
                     shape:

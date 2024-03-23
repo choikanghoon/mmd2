@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mmd/screens/camera.dart';
+import 'package:mmd/main.dart';
+import '../screens/camera.dart';
+import '../screens/dict_list_screen2.dart';
+import '../screens/main_screen.dart';
 import '../style/custom_color.dart';
 import '../style/size_form.dart';
 
@@ -37,26 +40,45 @@ class _BottomScreenState extends State<BottomScreen> {
                 IconButton(
                   icon: Image.asset('assets/images/bottom_home.png',
                     width: mediaWidth(context, 0.1),),
-                  onPressed: () {},
+                  visualDensity: VisualDensity.compact,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyPage())
+                    );
+                  },
                 ),
                 Spacer(),
                 // 원하는 위치에 IconButton 추가
                 IconButton(
                   icon: Image.asset('assets/images/bottom_profile.png',
                     width: mediaWidth(context, 0.1),),
-                  onPressed: () {},
+                  visualDensity: VisualDensity.compact,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyPage())
+                    );
+                  },
                 ),
                 Spacer(flex: 6),
                 IconButton(
                   icon: Image.asset('assets/images/bottom_note.png',
                     width: mediaWidth(context, 0.1),),
+                  visualDensity: VisualDensity.compact,
                   onPressed: () {},
                 ),
                 Spacer(),
                 IconButton(
                   icon: Image.asset('assets/images/bottom_dict.png',
                   width: mediaWidth(context, 0.1),),
-                  onPressed: () {},
+                  visualDensity: VisualDensity.compact,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Dict_List2())
+                    );
+                  },
                 ),
               ],
             ),

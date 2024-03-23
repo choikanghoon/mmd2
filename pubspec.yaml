@@ -43,9 +43,12 @@ dependencies:
   carousel_slider: ^4.2.1
   mysql_client: ^0.0.27
   flutter_secure_storage: ^4.2.0
+  google_sign_in: ^6.0.0
 
 dev_dependencies:
   flutter_test:
+    sdk: flutter
+  flutter_localizations:
     sdk: flutter
 
   # The "flutter_lints" package below contains a set of recommended lints to

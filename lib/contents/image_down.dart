@@ -23,9 +23,15 @@ class _SnapShotState extends State<SnapShotImage> {
       future: Awss3Get(widget.user_no).loadImage(widget.mydic_no), // null 체크 추가
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Image.memory(snapshot.data!);
+          return Image.memory(snapshot.data!, fit: BoxFit.cover,);
         } else {
-          return Image.asset('assets/images/camera.png');
+          return SizedBox(
+            width: 300,
+            height: 300,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
         }
       },
     );
