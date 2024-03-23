@@ -10,6 +10,7 @@ import '../style/contents.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../state_bar/bottom_screen.dart';
 import 'camera2.dart';
+import 'login_screen.dart';
 
 class MyCamera extends StatefulWidget {
   const MyCamera({super.key});
@@ -21,6 +22,8 @@ class MyCamera extends StatefulWidget {
 class _MyCameraState extends State<MyCamera> {
   XFile? _image;
   final ImagePicker _picker = ImagePicker();
+  String? user_no;
+
 
   Future<void> _getImage(ImageSource source) async {
     final XFile? pickedFile = await _picker.pickImage(source: source, maxWidth: 300, maxHeight: 300);
@@ -29,6 +32,28 @@ class _MyCameraState extends State<MyCamera> {
         _image = pickedFile;
       });
     }
+  }
+
+  // 4. 세션 토큰 검사
+  void Checktoken() async {
+    String? no = await Token().Gettoken();
+
+    if (no == null) {
+      Navigator.popUntil(context, (route) => route.isFirst);
+      Navigator.pop(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => LoginScreen()));
+    } else {
+      setState(() {
+        user_no = no;
+      });}
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Checktoken();
   }
 
   @override
@@ -120,14 +145,12 @@ class _MyCameraState extends State<MyCamera> {
     return ElevatedButton(
 
       onPressed: () async {
-        // 수정필요
-        String? user_no = await Token().Gettoken();
         String? mydic_no = await sqlget().GetNewMyDicNo();
         Awss3Send(user_no: user_no,mydic_no: mydic_no).upload(_image!.path);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => MyCamera2(),
-              settings: RouteSettings(arguments: {'user_no':user_no, 'mydic_no':mydic_no})),
+              settings: RouteSettings(arguments: {'mydic_no':mydic_no})),
         );
       },
       child: Text('사용하기'),

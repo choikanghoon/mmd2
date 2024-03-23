@@ -5,6 +5,11 @@ import '../screens/Join_screen.dart';
 import 'main_screen.dart';
 import '../style/contents.dart';
 import '../back_module/sqlclient.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+enum LoginPlatform {
+  google,none
+}
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,11 +21,60 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _pwController = TextEditingController();
+  LoginPlatform loginPlatform = LoginPlatform.none;
 
   @override
   void initState() {
     super.initState();
     GetNumber();
+  }
+
+  void signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    if(googleUser != null) {
+      print('name = ${googleUser.displayName}');
+      print('email = ${googleUser.email}');
+      print('id = ${googleUser.id}');
+
+      setState(() {
+        loginPlatform = LoginPlatform.google;
+      });
+
+      // 사용자 유무
+      // sql에서 email, pw(googleUser.id) 체크
+      String? userNo = await sqlget().GetUserByIdPw(id: googleUser.email, pw: googleUser.id);
+      // 없으면 회원가입 (DB에 사용자 저장)
+      if(userNo == 'id' || userNo == 'pw') {
+        // 회원가입
+        String name = googleUser.displayName as String;
+        bool joinResult = await sqlget().UserJoin(
+            id: googleUser.email,
+            pw: googleUser.id,
+            name: name);
+        if(joinResult) {
+          String? newUserNo = await sqlget().GetUserByIdPw(id: googleUser.email, pw: googleUser.id);
+          Token().Settoken(userNo);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MainScreen(),
+                settings: RouteSettings(
+                    arguments: {'user_no': newUserNo})),
+          );
+        }
+      } else {
+        // 로그인
+        Token().Settoken(userNo);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MainScreen(),
+              settings: RouteSettings(
+                  arguments: {'user_no': userNo})),
+        );
+      }
+    }
   }
 
   Future<void> GetNumber() async {
@@ -178,7 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      print('구글로 로그인하기 click');
+                      signInWithGoogle();
                     },
                     child: Container(
                       width: 330,
