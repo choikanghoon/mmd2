@@ -115,7 +115,7 @@ class _MyCamera2State extends State<MyCamera2> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    Awss3Send(user_no: user_no, mydic_no: mydic_no)
+                    Awss3(user_no: user_no, mydic_no: mydic_no)
                         .remove(); // s3 사진 지우기
                     Navigator.pop(context);
                   },

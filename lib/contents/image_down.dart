@@ -20,7 +20,7 @@ class _SnapShotState extends State<SnapShotImage> {
   Widget build(BuildContext context) {
     return FutureBuilder<Uint8List?>(
       // user_id / mydic_no
-      future: Awss3Get(widget.user_no).loadImage(widget.mydic_no), // null 체크 추가
+      future: Awss3(user_no: widget.user_no, mydic_no : widget.mydic_no).loadImage(),// null 체크 추가
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Image.memory(snapshot.data!, fit: BoxFit.cover,);

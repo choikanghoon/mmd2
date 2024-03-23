@@ -7,7 +7,6 @@ import '../style/size_form.dart';
 import '../back_module/s3client.dart';
 import '../style/button.dart';
 import '../style/contents.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../state_bar/bottom_screen.dart';
 import 'camera2.dart';
 import 'login_screen.dart';
@@ -146,7 +145,7 @@ class _MyCameraState extends State<MyCamera> {
 
       onPressed: () async {
         String? mydic_no = await sqlget().GetNewMyDicNo();
-        Awss3Send(user_no: user_no,mydic_no: mydic_no).upload(_image!.path);
+        Awss3(user_no: user_no,mydic_no: mydic_no).upload(_image!.path);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => MyCamera2(),

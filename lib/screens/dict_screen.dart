@@ -3,10 +3,7 @@ import '../contents/image_down.dart';
 import '../state_bar/bottom_screen.dart';
 import '../state_bar/appbar_screen.dart';
 import '../style/contents.dart';
-import '../back_module/sqlclient.dart';
-import '../back_module/s3client.dart';
 import '../style/custom_color.dart';
-import '../style/size_form.dart';
 import '../style/button.dart';
 
 class Dict_Screen extends StatefulWidget {

@@ -7,7 +7,6 @@ import 'package:mmd/state_bar/bottom_screen.dart';
 import 'package:mmd/state_bar/menu.dart';
 import '../style/size_form.dart';
 import 'camera.dart';
-import '../style/custom_color.dart';
 import '../style/contents.dart';
 import '../back_module/sqlclient.dart';
 import '../screens/dict_list_screen2.dart';
@@ -135,6 +134,7 @@ class _MainScreenState extends State<MainScreen> {
                 if (postList.isNotEmpty) {
                   return CarouselSlider(
                     options: CarouselOptions(
+
                       height: 260,
                       viewportFraction: 0.5,
                       aspectRatio: 16 / 9,

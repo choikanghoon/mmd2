@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../screens/camera.dart';
 import '../main.dart';
-import '../style/custom_color.dart';
-import '../back_module/sqlclient.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});

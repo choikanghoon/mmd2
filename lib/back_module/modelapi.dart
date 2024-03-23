@@ -18,7 +18,7 @@ class GetLabel {
   String api_url = 'http://13.209.64.182/';
 
   // map화
-  Map<String, dynamic> toMap() => {'path': Awss3Send(user_no:this.user_no, mydic_no: this.mydic_no).PathMaker(), 'labels': text_label.join(',')};
+  Map<String, dynamic> toMap() => {'path': Awss3(user_no:this.user_no, mydic_no: this.mydic_no).PathMaker(), 'labels': text_label.join(',')};
 
   // json 송신 후 label return 받기
   Future<String?> get_label() async {

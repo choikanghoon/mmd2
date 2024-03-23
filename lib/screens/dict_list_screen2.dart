@@ -4,7 +4,6 @@ import '../screens/dict_screen.dart';
 import '../state_bar/appbar_screen.dart';
 import '../style/contents.dart';
 import '../style/size_form.dart';
-import '../style/custom_color.dart';
 import '../state_bar/bottom_screen.dart';
 import '../back_module/sqlclient.dart';
 import '../screens/login_screen.dart';

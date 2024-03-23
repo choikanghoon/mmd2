@@ -3,8 +3,6 @@ import '../style/contents.dart';
 import '../style/custom_color.dart';
 import '../back_module/sqlclient.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:intl/intl.dart';
 
 class JoinScreen extends StatefulWidget {
   const JoinScreen({super.key});
@@ -236,7 +234,8 @@ class _JoinScreenState extends State<JoinScreen> {
                                     ],
                                   ),
                                 );
-                              }
+                              },
+                            barrierDismissible: false,
                           );
                         },
                         child: Text(

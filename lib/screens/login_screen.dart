@@ -3,7 +3,6 @@ import '../style/contents.dart';
 import '../style/custom_color.dart';
 import '../screens/Join_screen.dart';
 import 'main_screen.dart';
-import '../style/contents.dart';
 import '../back_module/sqlclient.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -82,6 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
     print(user_no);
     if (user_no != null) {
       // 다음 화면 넘기기
+      Navigator.pop(context);
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -157,8 +157,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ));
                         // 로그인 세션 유지
                         Token().Settoken(result);
-                        print(result);
                         // 다음 화면 넘기기
+                        Navigator.pop(context);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
