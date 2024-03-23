@@ -8,6 +8,7 @@ import 'camera.dart';
 import '../style/custom_color.dart';
 import '../style/contents.dart';
 import '../back_module/sqlclient.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -68,7 +69,7 @@ class _MainScreenState extends State<MainScreen> {
               ImagePath: 'assets/images/main_note.png',
               title_text: '잠시동안 로그아웃',
               subtitle_text: '오늘 배운단어들과 연관지어 일기를 써보아요',
-              onTap: () {
+              onTap: () async {
 
                 // Navigator.push(
                 //     context,
@@ -77,6 +78,7 @@ class _MainScreenState extends State<MainScreen> {
 
                 // 로그아웃 기능
                 Token().Deltoken();
+                await GoogleSignIn().signOut();
                 Navigator.popUntil(context, (route) => route.isFirst);
               },
             ),

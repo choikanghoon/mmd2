@@ -5,6 +5,7 @@ import 'state_bar/appbar_screen.dart';
 import 'state_bar/bottom_screen.dart';
 import 'state_bar/menu.dart';
 import 'screens/login_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main(){
   runApp(MyApp());
@@ -16,6 +17,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate, // for 안드로이드
+        GlobalCupertinoLocalizations.delegate, // for IOS
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('ko', 'KO'),
+      ],
       title: 'Appbar',
       debugShowCheckedModeBanner: false,
       home: MyPage(),
