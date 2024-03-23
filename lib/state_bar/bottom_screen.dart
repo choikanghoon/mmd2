@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mmd/main.dart';
 import '../screens/camera.dart';
 import '../screens/dict_list_screen2.dart';
-import '../screens/main_screen.dart';
 import '../style/custom_color.dart';
 import '../style/size_form.dart';
 

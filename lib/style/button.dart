@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'custom_color.dart';
-import 'size_form.dart';
 class Style {
   static ButtonStyle mainButtonStyle1 = ElevatedButton.styleFrom(
     shape:RoundedRectangleBorder(
